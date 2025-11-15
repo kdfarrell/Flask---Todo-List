@@ -34,7 +34,7 @@ def update_todo_text(todo_id, new_text):
     db.session.commit()
     return todo
 
-def mark_todo_done(todo_id):
+def mark_done(todo_id):
     todo = get_todo_by_id(todo_id)
     if not todo:
         raise ValueError("Todo not found")
@@ -42,7 +42,7 @@ def mark_todo_done(todo_id):
     db.session.commit()
     return todo
 
-def mark_todo_undone(todo_id):
+def mark_undone(todo_id):
     todo = get_todo_by_id(todo_id)
     if not todo:
         raise ValueError("Todo not found")
