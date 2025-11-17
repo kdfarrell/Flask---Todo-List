@@ -1,3 +1,4 @@
+import click
 from main import create_app
 from app.database import init_db
 from app.controllers.initialize import initialize
@@ -21,3 +22,18 @@ def list_users():
         return
     for user in users:
         print(f"ID: {user.id}, Username: {user.username}")
+
+
+from app.controllers.todo_controller import get_todo_by_id
+
+@app.cli.command("todo", help="Get a single todo by ID")
+@click.argument("todo_id")
+def get_single(todo_id):
+    with app.app_context():
+        todo = get_todo_by_id(todo_id)
+        if not todo:
+            print("Todo not found.")
+        else:
+            print(f"ID: {todo.id}")
+            print(f"Text: {todo.text}")
+            print(f"Done: {todo.done}")
