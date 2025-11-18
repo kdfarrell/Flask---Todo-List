@@ -62,3 +62,13 @@ def update_todo(todo_id, new_text):
 
     print("Todo updated:")
     print(f"ID: {updated_todo.id}\nText: {updated_todo.text}\nDone: {updated_todo.done}")
+
+@app.cli.command("delete-todo", help="Delete todo by ID")
+@click.argument("todo_id")
+def delete_todo_route(todo_id):
+    try:
+        deleted = delete_todo(todo_id)
+    except ValueError as e:
+        print(f"Error: {e}")
+        return
+    print("Todo Successfully Deleted")

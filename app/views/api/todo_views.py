@@ -38,3 +38,10 @@ def update_todo_route(todo_id):
         return {"error": "Todo not found"}, 404
 
     return jsonify({"id": todo.id, "text": todo.text, "done": todo.done})
+
+@api_todo.route("/<int:todo_id>", methods=["DELETE"])
+def delete_todo_route(todo_id):
+    deleted = delete_todo(todo_id)
+    if not deleted:
+        return {"Error": "Todo not found"}, 404
+    return {"message": "Todo Deleted."}
