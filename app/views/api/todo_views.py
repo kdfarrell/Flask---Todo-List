@@ -26,3 +26,15 @@ def get_single_todo(todo_id):
     return jsonify({"id": todo_id, "text": todo.text, "done": todo.done})
 
 
+@api_todo.route("/<int:todo_id>", methods=["PUT"])
+def update_todo_route(todo_id):
+    data = request.get_json() or {}
+    new_text = data.get("text")
+    if not new_text:
+        return {"error": "text required"}, 400
+
+    todo = update_todo_text(todo_id, new_text)
+    if not todo:
+        return {"error": "Todo not found"}, 404
+
+    return jsonify({"id": todo.id, "text": todo.text, "done": todo.done})

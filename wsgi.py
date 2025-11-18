@@ -3,6 +3,7 @@ from main import create_app
 from app.database import init_db
 from app.controllers.initialize import initialize
 from app.controllers.user_controller import *
+from app.controllers.todo_controller import *
 
 app = create_app()
 init_db(app)
@@ -24,7 +25,17 @@ def list_users():
         print(f"ID: {user.id}, Username: {user.username}")
 
 
-from app.controllers.todo_controller import get_todo_by_id
+
+# Todo commands
+@app.cli.command("list-todos", help="List all todos in the database")
+def list_todos():
+    todos = get_all_todos()
+    if not todos:
+        print("No todos found.")
+        return
+    for todo in todos:
+        print(f"ID: {todo.id}\nTodo: {todo.text}\nDate Created: {todo.created_at}\nCompleted: {todo.done}\n")
+
 
 @app.cli.command("todo", help="Get a single todo by ID")
 @click.argument("todo_id")
@@ -37,3 +48,17 @@ def get_single(todo_id):
             print(f"ID: {todo.id}")
             print(f"Text: {todo.text}")
             print(f"Done: {todo.done}")
+
+
+@app.cli.command("update-todo", help="Update a todo's text by ID")
+@click.argument("todo_id")
+@click.argument("new_text")
+def update_todo(todo_id, new_text):
+    updated_todo = update_todo_text(todo_id, new_text)
+
+    if not updated_todo:
+        print("Todo not found.")
+        return
+
+    print("Todo updated:")
+    print(f"ID: {updated_todo.id}\nText: {updated_todo.text}\nDone: {updated_todo.done}")
