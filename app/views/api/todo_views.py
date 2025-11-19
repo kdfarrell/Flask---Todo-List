@@ -18,6 +18,7 @@ def add_todo():
     todo = create_todo(text)
     return jsonify({"id": todo.id, "text": todo.text}), 201
 
+
 @api_todo.route("/<int:todo_id>", methods=["GET"])
 def get_single_todo(todo_id):
     todo = get_todo_by_id(todo_id)
@@ -39,9 +40,29 @@ def update_todo_route(todo_id):
 
     return jsonify({"id": todo.id, "text": todo.text, "done": todo.done})
 
+
 @api_todo.route("/<int:todo_id>", methods=["DELETE"])
 def delete_todo_route(todo_id):
     deleted = delete_todo(todo_id)
     if not deleted:
         return {"Error": "Todo not found"}, 404
     return {"message": "Todo Deleted."}
+
+
+@api_todo.route("/<int:todo_id>/done", methods=["PATCH"])
+def mark_todo_done(todo_id):
+    try:
+        todo = mark_done(todo_id)
+    except ValueError as e:
+        return {"error": {e}}, 40
+    return jsonify({"id": todo.id, "text": todo.text, "done": todo.done})
+
+
+@api_todo.route("/<int:todo_id>/undone", methods=["PATCH"])
+def mark_todo_undone(todo_id):
+    try:
+        todo = mark_undone(todo_id)
+    except ValueError as e:
+        return {"error": {e}}, 404
+
+    return jsonify({"id": todo.id,  "text": todo.text, "done": todo.done})

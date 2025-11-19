@@ -22,14 +22,14 @@ def get_all_todos():
 def get_user_todos(user_id):
     user = User.query.get(user_id)
     if not user:
-        raise ValueError("User not found")
+        raise ValueError("User not found.")
     return user.todos
 
 # UPDATE
 def update_todo_text(todo_id, new_text):
     todo = get_todo_by_id(todo_id)
     if not todo:
-        raise ValueError("Todo not found")
+        raise ValueError("Todo not found.")
     todo.text = new_text
     db.session.commit()
     return todo
@@ -37,7 +37,7 @@ def update_todo_text(todo_id, new_text):
 def mark_done(todo_id):
     todo = get_todo_by_id(todo_id)
     if not todo:
-        raise ValueError("Todo not found")
+        raise ValueError("Todo not found.")
     todo.mark_done()
     db.session.commit()
     return todo
@@ -45,7 +45,7 @@ def mark_done(todo_id):
 def mark_undone(todo_id):
     todo = get_todo_by_id(todo_id)
     if not todo:
-        raise ValueError("Todo not found")
+        raise ValueError("Todo not found.")
     todo.mark_undone()
     db.session.commit()
     return todo
@@ -54,7 +54,7 @@ def mark_undone(todo_id):
 def delete_todo(todo_id):
     todo = get_todo_by_id(todo_id)
     if not todo:
-        raise ValueError("Todo not found")
+        raise ValueError("Todo not found.")
     db.session.delete(todo)
     db.session.commit()
     return True

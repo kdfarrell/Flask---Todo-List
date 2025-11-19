@@ -63,12 +63,33 @@ def update_todo(todo_id, new_text):
     print("Todo updated:")
     print(f"ID: {updated_todo.id}\nText: {updated_todo.text}\nDone: {updated_todo.done}")
 
+
 @app.cli.command("delete-todo", help="Delete todo by ID")
 @click.argument("todo_id")
-def delete_todo_route(todo_id):
+def delete_todo_command(todo_id):
     try:
         deleted = delete_todo(todo_id)
     except ValueError as e:
         print(f"Error: {e}")
         return
     print("Todo Successfully Deleted")
+
+
+@app.cli.command("mark-done", help="Mark a todo as done by ID")
+@click.argument("todo_id")
+def mark_done_command(todo_id):
+    try:
+        todo = mark_done(todo_id)
+        print("Todo has been marked done.")
+    except ValueError:
+        print("Todo Not found")
+
+
+@app.cli.command("mark-undone", help="Marks todo as not done by ID")
+@click.argument("todo_id")
+def mark_undone_command(todo_id):
+    try:
+        todo = mark_undone(todo_id)
+        print("Todo has been marked undone.")
+    except ValueError:
+        print("Todo Not Found.")
