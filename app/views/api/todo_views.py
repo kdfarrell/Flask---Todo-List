@@ -6,7 +6,7 @@ api_todo = Blueprint("api_todos", __name__)
 @api_todo.route("/", methods=["GET"])
 def list_todos():
     todos = get_all_todos()
-    return jsonify([{"id": t.id, "text": t.text, "done": t.done} for t in todos])
+    return jsonify([{"id": todo.id, "text": todo.text, "done": todo.done} for todo in todos])
 
 
 @api_todo.route("/", methods=["POST"])

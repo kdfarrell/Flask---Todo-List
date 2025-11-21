@@ -12,15 +12,16 @@ def initialize():
     db.create_all()
 
     # Create sample users and todos
-    if not User.query.filter_by(username="alice").first():
-        alice = create_user("alice", "alicepass")
-        create_todo("Buy groceries", alice.id)
-        create_todo("Walk the dog", alice.id)
-
     if not User.query.filter_by(username="bob").first():
         bob = create_user("bob", "bobpass")
-        create_todo("Read a book", bob.id)
-        create_todo("Do laundry", bob.id)
+        create_todo(bob.id, "Read a book")
+        create_todo(bob.id, "Do laundry")
+
+    if not User.query.filter_by(username="alice").first():
+        alice = create_user("alice", "alicepass")
+        create_todo(alice.id, "Buy groceries")
+        create_todo(alice.id, "Walk the dog")
+
 
     db.session.commit()
     print("Database initialized with sample data.")
