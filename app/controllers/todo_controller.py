@@ -3,7 +3,7 @@ from app.models.user import User
 from app.database import db
 
 # CREATE
-def create_todo(text, user_id):
+def create_todo(user_id, text):
     user = User.query.get(user_id)
     if not user:
         raise ValueError("User not found")

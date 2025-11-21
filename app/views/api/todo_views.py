@@ -13,10 +13,26 @@ def list_todos():
 def add_todo():
     data = request.get_json() or {}
     text = data.get("text")
+    user_id = data.get("user_id")
+
+    if not user_id:
+        return {"error": "user_id required"}, 400
+    
     if not text:
         return {"error": "text required"}, 400
-    todo = create_todo(text)
-    return jsonify({"id": todo.id, "text": todo.text}), 201
+
+    try:
+        todo = create_todo(user_id, text)
+    except ValueError as e:
+        return {"error": str(e)}, 404 
+
+    return jsonify({
+        "id": todo.id,
+        "text": todo.text,
+        "done": todo.done,
+        "user_id": todo.user_id,
+        "created_at": todo.created_at,
+    }), 201
 
 
 @api_todo.route("/<int:todo_id>", methods=["GET"])

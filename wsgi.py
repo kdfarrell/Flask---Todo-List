@@ -14,7 +14,7 @@ def init():
     initialize()
 
 
-# List all users
+# User Commands
 @app.cli.command("list-users", help="Print all users in the database")
 def list_users():
     users = get_all_users()
@@ -25,8 +25,7 @@ def list_users():
         print(f"ID: {user.id}, Username: {user.username}")
 
 
-
-# Todo commands
+# Todo Commands
 @app.cli.command("list-todos", help="List all todos in the database")
 def list_todos():
     todos = get_all_todos()
@@ -49,6 +48,20 @@ def get_single(todo_id):
             print(f"Text: {todo.text}")
             print(f"Done: {todo.done}")
 
+
+@app.cli.command("create-todo", help="Create a new todo for a user")
+@click.argument("user_id")
+@click.argument("text")
+def create_todo_command(user_id, text):
+    try:
+        todo = create_todo(user_id, text)
+        print("Todo created successfully.")
+        print(f"User ID: {todo.user_id}")
+        print(f"ID: {todo.id}")
+        print(f"Text: {todo.text}")
+    except ValueError as e:
+        print(f"error: {e}")
+        
 
 @app.cli.command("update-todo", help="Update a todo's text by ID")
 @click.argument("todo_id")
