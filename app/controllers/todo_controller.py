@@ -19,12 +19,6 @@ def get_todo_by_id(todo_id):
 def get_all_todos():
     return Todo.query.all()
 
-def get_user_todos(user_id):
-    user = User.query.get(user_id)
-    if not user:
-        raise ValueError("User not found.")
-    return user.todos
-
 # UPDATE
 def update_todo_text(todo_id, new_text):
     todo = get_todo_by_id(todo_id)

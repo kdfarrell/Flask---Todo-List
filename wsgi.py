@@ -8,7 +8,7 @@ from app.controllers.todo_controller import *
 app = create_app()
 init_db(app)
 
-# CLI command
+# CLI Commands
 @app.cli.command("init", help="Creates and initializes the database with sample data")
 def init():
     initialize()
@@ -25,6 +25,17 @@ def list_users():
         print(f"ID: {user.id}, Username: {user.username}")
 
 
+@app.cli.command("list-user-todos", help="List all todos for a user")
+@click.argument("user_id")
+def list_user_todos_command(user_id):
+    try:
+        user_todos = get_user_todos(user_id)
+        for todo in user_todos:
+            print(f"\nID: {todo.id}\nText: {todo.text}\nDate Created: {todo.created_at}")
+    except ValueError as e:
+        print(f"error: {e}")
+
+
 # Todo Commands
 @app.cli.command("list-todos", help="List all todos in the database")
 def list_todos():
@@ -33,7 +44,7 @@ def list_todos():
         print("No todos found.")
         return
     for todo in todos:
-        print(f"ID: {todo.id}\nTodo: {todo.text}\nDate Created: {todo.created_at}\nCompleted: {todo.done}\n")
+        print(f"\nID: {todo.id}\nTodo: {todo.text}\nDate Created: {todo.created_at}\nCompleted: {todo.done}")
 
 
 @app.cli.command("todo", help="Get a single todo by ID")
